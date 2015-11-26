@@ -7,7 +7,7 @@ var connection = mysql.createConnection({
   database: 'addressbook'
 });
 
-connection.query("select Account.id as ActId, AddressBook.accountId as AdsId, Account.email as AccountEmail, AddressBook.name as AddressBookName FROM Account join AddressBook on Account.id=AddressBook.accountId", function(err, rows) {
+connection.query("select Account.id as ActId, AddressBook.accountId as AdsId, Account.email as AccountEmail, AddressBook.name as AddressBookName FROM Account left join AddressBook on Account.id=AddressBook.accountId", function(err, rows) {
   if (err) throw err;
   var arr = [];
 
@@ -34,7 +34,13 @@ connection.query("select Account.id as ActId, AddressBook.accountId as AdsId, Ac
     }
   }
   for(var k = 0; k < arr.length; k++){
-    console.log("#" + k + " " + arr[k].AccountEmail + "\n" + arr[k].books.join(", ") + "\n --------");
+    var a = "#" + arr[k].ActId + " " + arr[k].AccountEmail + "\n" + arr[k].books.join(", ") + "\n --------";
+    var b = "#" + arr[k].ActId + " " + arr[k].AccountEmail + "\n" + "---NO ADDRESSBOOKS---" + "\n --------";
+    if(arr[k].books[0] === null){
+      console.log(b);
+    }else{
+      console.log(a);
+    }
   }
   connection.end();
 });
