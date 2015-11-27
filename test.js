@@ -21,12 +21,13 @@ connection.query("SELECT Account.id AS actId, Account.email AS actEmail, Address
         var objAdr = {
             entries: []
         };
+        var objEnt = {};
         var currentAct;
         var currentAdr;
         var foundAct = false;
         var foundAdr = false;
 
-
+        //accounts
         for (var j = 0; j < array.length; j++) {
             if (array.length > 0) {
                 if (rows[i].actId === array[j].actId) {
@@ -42,20 +43,31 @@ connection.query("SELECT Account.id AS actId, Account.email AS actEmail, Address
             array.push(objAct);
             currentAct = array.length - 1;
         }
-         for(var count = 0; count < array[currentAct].addressBooks.length; count++){
-             //if statment not working!!!!!!! always returning false
-             if(array[currentAct].addressBooks[count].adrId===rows[i].adrId){
-             foundAdr = true;
-             currentAdr = array[currentAct].addressBooks.length-1;
-             }   
-         }
-         if (!foundAdr) {
-             objAdr.adrId = rows[i].adrId;
-             objAdr.adrName = rows[i].adrName;
-             array[currentAct].addressBooks.push(objAdr);
-             currentAdr = array[currentAct].addressBooks.length - 1;
-         }
+        //addressbooks
+        for (var count = 0; count < array[currentAct].addressBooks.length; count++) {
+            if (array[currentAct].addressBooks[count].adrId === rows[i].adrId) {
+                foundAdr = true;
+                currentAdr = array[currentAct].addressBooks.length - 1;
+            }
+        }
+        if (!foundAdr) {
+            objAdr.adrId = rows[i].adrId;
+            objAdr.adrName = rows[i].adrName;
+            array[currentAct].addressBooks.push(objAdr);
+            currentAdr = array[currentAct].addressBooks.length - 1;
+        }
+        //entries
+        objEnt.id = rows[i].entId;
+        objEnt.first = rows[i].first;
+        objEnt.last = rows[i].last;
+        array[currentAct].addressBooks[currentAdr].entries.push(objEnt);
+
+
+
+
+
     }
-    console.log(array[1].addressBooks);
+
+    console.log(array[1].addressBooks[0]);
     connection.end();
 });
