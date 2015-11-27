@@ -42,27 +42,20 @@ connection.query("SELECT Account.id AS actId, Account.email AS actEmail, Address
             array.push(objAct);
             currentAct = array.length - 1;
         }
-        
-        for(var count = 0; count < array[currentAct].addressBooks.length; count++){
-            //if statment not working!!!!!!! always returning false
-            if(array[currentAct].addressBooks[count].adrId===rows[i].adrId){
-            console.log(array[currentAct].addressBooks[count]);  
-            foundAdr = true;
-            currentAdr = array[currentAct].addressBooks.length-1;
-            }   
-        }
-        //console.log(foundAdr);
-        if (!foundAdr) {
-            objAdr.adrId = rows[i].adrId;
-            objAdr.adrName = rows[i].adrName;
-            array[currentAct].addressBooks.push(objAdr);
-            currentAdr = array[currentAct].addressBooks.length - 1;
-        }
-
-        //console.log("ARRAY    " + array[currentAct].addressBooks[currentAdr].adrId);
-        //console.log("ROW    " + rows[i].adrId);
+         for(var count = 0; count < array[currentAct].addressBooks.length; count++){
+             //if statment not working!!!!!!! always returning false
+             if(array[currentAct].addressBooks[count].adrId===rows[i].adrId){
+             foundAdr = true;
+             currentAdr = array[currentAct].addressBooks.length-1;
+             }   
+         }
+         if (!foundAdr) {
+             objAdr.adrId = rows[i].adrId;
+             objAdr.adrName = rows[i].adrName;
+             array[currentAct].addressBooks.push(objAdr);
+             currentAdr = array[currentAct].addressBooks.length - 1;
+         }
     }
-    //console.log(array[2]);
-    //   console.log(array[3].addressBooks);
+    console.log(array[1].addressBooks);
     connection.end();
 });
